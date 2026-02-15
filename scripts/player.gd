@@ -47,27 +47,27 @@ func _unhandled_input(event: InputEvent) -> void:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				_mouse_captured = true
 
-	# Tool selection via number keys
+	# Tool selection via number keys (only if unlocked)
 	if event.is_action_pressed("tool_1"):
-		GameManager.set_tool("squeegee")
+		_try_select_tool_by_index(0)
 	elif event.is_action_pressed("tool_2"):
-		GameManager.set_tool("sponge")
+		_try_select_tool_by_index(1)
 	elif event.is_action_pressed("tool_3"):
-		GameManager.set_tool("steelwool")
+		_try_select_tool_by_index(2)
 	elif event.is_action_pressed("tool_4"):
-		GameManager.set_tool("spray")
+		_try_select_tool_by_index(3)
 	elif event.is_action_pressed("tool_5"):
-		GameManager.set_tool("razor")
+		_try_select_tool_by_index(4)
 
-	# Soap selection via F1-F4
+	# Soap selection via F1-F4 (only if unlocked)
 	if event.is_action_pressed("soap_1"):
-		GameManager.set_soap("general")
+		_try_select_soap_by_index(0)
 	elif event.is_action_pressed("soap_2"):
-		GameManager.set_soap("degreaser")
+		_try_select_soap_by_index(1)
 	elif event.is_action_pressed("soap_3"):
-		GameManager.set_soap("mineral")
+		_try_select_soap_by_index(2)
 	elif event.is_action_pressed("soap_4"):
-		GameManager.set_soap("bio")
+		_try_select_soap_by_index(3)
 
 	# Scroll wheel to cycle tools
 	if event.is_action_pressed("scroll_up"):
@@ -173,6 +173,22 @@ func _complete_current_window(window: WindowSurface) -> void:
 	var cleanliness := window.get_cleanliness()
 	GameManager.complete_job(cleanliness)
 	AudioManager.play_complete()
+
+
+func _try_select_tool_by_index(idx: int) -> void:
+	if idx < 0 or idx >= GameManager.tool_order.size():
+		return
+	var tool_id: String = GameManager.tool_order[idx]
+	if GameManager.is_tool_unlocked(tool_id):
+		GameManager.set_tool(tool_id)
+
+
+func _try_select_soap_by_index(idx: int) -> void:
+	if idx < 0 or idx >= GameManager.soap_order.size():
+		return
+	var soap_id: String = GameManager.soap_order[idx]
+	if GameManager.is_soap_unlocked(soap_id):
+		GameManager.set_soap(soap_id)
 
 
 func _on_tool_changed(_tool_id: String) -> void:
