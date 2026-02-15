@@ -1,0 +1,202 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmain001"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" uid="uid://bplayer001" path="res://scenes/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://bhud001" path="res://scenes/hud.tscn" id="3_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_001"]
+sky_top_color = Color(0.385, 0.6, 0.92, 1)
+sky_horizon_color = Color(0.7, 0.82, 0.95, 1)
+ground_bottom_color = Color(0.35, 0.32, 0.28, 1)
+ground_horizon_color = Color(0.6, 0.58, 0.55, 1)
+
+[sub_resource type="Sky" id="Sky_001"]
+sky_material = SubResource("ProceduralSkyMaterial_001")
+
+[sub_resource type="Environment" id="Environment_001"]
+background_mode = 2
+sky = SubResource("Sky_001")
+ambient_light_source = 2
+ambient_light_color = Color(0.75, 0.8, 0.85, 1)
+ambient_light_energy = 0.4
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 0.3
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_001")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.3, 0.4, 0, 0.8, 0.6, -0.5, -0.52, 0.693, 0, 10, 0)
+light_color = Color(1, 0.97, 0.92, 1)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="WindowAnchor" type="Node3D" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+collision_layer = 1
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_ground")
+
+[node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape_ground")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -0.1)
+mesh = SubResource("BoxMesh_wall")
+
+[node name="UIScreens" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="TitleScreen" type="ColorRect" parent="UIScreens"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.08, 0.07, 0.14, 0.95)
+
+[node name="VBox" type="VBoxContainer" parent="UIScreens/TitleScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -120.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="UIScreens/TitleScreen/VBox"]
+layout_mode = 2
+text = "Squeaky Clean"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 48
+
+[node name="Subtitle" type="Label" parent="UIScreens/TitleScreen/VBox"]
+layout_mode = 2
+text = "Window Washing Simulator"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="Spacer" type="Control" parent="UIScreens/TitleScreen/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+
+[node name="StartButton" type="Button" parent="UIScreens/TitleScreen/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 50)
+size_flags_horizontal = 4
+text = "Start Working"
+theme_override_font_sizes/font_size = 20
+
+[node name="JobCompleteScreen" type="ColorRect" parent="UIScreens"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="UIScreens/JobCompleteScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -180.0
+offset_right = 200.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="UIScreens/JobCompleteScreen/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="CompleteLabel" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "Job Complete!"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 28
+
+[node name="CleanLabel" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "Cleanliness:"
+theme_override_font_sizes/font_size = 14
+
+[node name="CleanValue" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "—"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="StreakLabel" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "Streak-Free:"
+theme_override_font_sizes/font_size = 14
+
+[node name="StreakValue" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "—"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="TimeLabel" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "Time:"
+theme_override_font_sizes/font_size = 14
+
+[node name="TimeValue" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "—"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+
+[node name="EarnedLabel" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "Earned:"
+theme_override_font_sizes/font_size = 14
+
+[node name="EarnedValue" type="Label" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+text = "—"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 24
+
+[node name="NextButton" type="Button" parent="UIScreens/JobCompleteScreen/Panel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "Next Job"
+theme_override_font_sizes/font_size = 18
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape_ground"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(6, 5, 0.2)
+
+[connection signal="pressed" from="UIScreens/TitleScreen/VBox/StartButton" to="." method="_on_start_button_pressed"]

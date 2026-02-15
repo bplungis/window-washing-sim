@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwindow001"]
+
+[ext_resource type="Script" path="res://scripts/window_surface.gd" id="1_window"]
+
+[node name="WindowSurface" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_window")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="Frame" type="MeshInstance3D" parent="."]
