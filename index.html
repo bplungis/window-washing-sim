@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squeaky Clean - Window Washing Simulator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="title-screen">
+            <h1>Squeaky Clean</h1>
+            <p class="subtitle">Window Washing Simulator</p>
+            <button id="start-btn">Start Working</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <div id="hud">
+                <div id="job-info">
+                    <span id="job-name">Job: —</span>
+                    <div id="progress-bar-container">
+                        <div id="progress-bar"></div>
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+                <div id="earnings">
+                    <span id="money-display">$0.00</span>
+                </div>
+            </div>
+
+            <canvas id="game-canvas"></canvas>
+
+            <div id="toolbar">
+                <div id="tools">
+                    <button class="tool-btn active" data-tool="squeegee" title="Squeegee (1)">
+                        <span class="tool-icon">🪟</span>
+                        <span class="tool-label">Squeegee</span>
+                        <span class="tool-key">1</span>
+                    </button>
+                    <button class="tool-btn" data-tool="sponge" title="Sponge (2)">
+                        <span class="tool-icon">🧽</span>
+                        <span class="tool-label">Sponge</span>
+                        <span class="tool-key">2</span>
+                    </button>
+                    <button class="tool-btn" data-tool="steelwool" title="Steel Wool (3)">
+                        <span class="tool-icon">🔩</span>
+                        <span class="tool-label">Steel Wool</span>
+                        <span class="tool-key">3</span>
+                    </button>
+                    <button class="tool-btn" data-tool="spray" title="Spray Bottle (4)">
+                        <span class="tool-icon">💧</span>
+                        <span class="tool-label">Spray</span>
+                        <span class="tool-key">4</span>
+                    </button>
+                    <button class="tool-btn" data-tool="razor" title="Razor Blade (5)">
+                        <span class="tool-icon">🔪</span>
+                        <span class="tool-label">Razor</span>
+                        <span class="tool-key">5</span>
+                    </button>
+                </div>
+                <div id="soap-selector">
+                    <label>Soap:</label>
+                    <button class="soap-btn active" data-soap="general" title="General Purpose (Q)">
+                        <span class="soap-color" style="background: #4a9eff;"></span>
+                        General
+                    </button>
+                    <button class="soap-btn" data-soap="degreaser" title="Degreaser (W)">
+                        <span class="soap-color" style="background: #ff9f43;"></span>
+                        Degreaser
+                    </button>
+                    <button class="soap-btn" data-soap="mineral" title="Mineral Remover (E)">
+                        <span class="soap-color" style="background: #a55eea;"></span>
+                        Mineral
+                    </button>
+                    <button class="soap-btn" data-soap="bio" title="Bio Cleaner (R)">
+                        <span class="soap-color" style="background: #2ed573;"></span>
+                        Bio
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="job-complete-screen" class="hidden">
+            <div id="job-complete-card">
+                <h2>Job Complete!</h2>
+                <div id="job-stats">
+                    <div class="stat"><span class="stat-label">Cleanliness</span><span id="stat-clean" class="stat-value">—</span></div>
+                    <div class="stat"><span class="stat-label">Streak-Free</span><span id="stat-streaks" class="stat-value">—</span></div>
+                    <div class="stat"><span class="stat-label">Time</span><span id="stat-time" class="stat-value">—</span></div>
+                    <div class="stat total"><span class="stat-label">Earned</span><span id="stat-earned" class="stat-value">—</span></div>
+                </div>
+                <button id="next-job-btn">Next Job</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/dirt.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
